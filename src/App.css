@@ -36,6 +36,10 @@ body {
     var(--clr-bg);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -101,14 +105,17 @@ ul {
   gap: 1.4rem;
 }
 
-.nav-links a {
+.nav-links a,
+.nav-links .nav-link {
   font-weight: 600;
   color: var(--clr-muted);
   transition: color 0.2s ease;
 }
 
 .nav-links a:hover,
-.nav-links a:focus {
+.nav-links a:focus,
+.nav-links .nav-link:hover,
+.nav-links .nav-link:focus {
   color: var(--clr-primary);
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import SmoothLink from '../components/SmoothLink.jsx';
 import { fadeInUp, staggerContainer } from '../motionPresets';
 
 const Hero = () => {
@@ -22,12 +23,12 @@ const Hero = () => {
           futures with wraparound support.
         </p>
         <motion.div className="hero-actions" variants={fadeInUp} transition={{ delay: 0.2 }}>
-          <a href="#contact" className="btn-primary">
+          <SmoothLink to="contact" className="btn-primary" offset={-72}>
             Partner with Us
-          </a>
-          <a href="#gallery" className="btn-secondary">
+          </SmoothLink>
+          <SmoothLink to="gallery" className="btn-secondary" offset={-72}>
             Tour the Project Home
-          </a>
+          </SmoothLink>
         </motion.div>
       </motion.div>
     </motion.section>
