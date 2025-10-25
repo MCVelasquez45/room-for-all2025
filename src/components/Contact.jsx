@@ -1,4 +1,6 @@
 import React, { useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { fadeInUp, staggerContainer, viewportOnce } from '../motionPresets';
 
 const Contact = () => {
   const formKeys = useMemo(() => ['apply', 'donate', 'partner'], []);
@@ -294,10 +296,17 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="section contact">
+    <motion.section
+      id="contact"
+      className="section contact"
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewportOnce}
+    >
       <div className="container">
-        <div className="contact-grid">
-          <div className="contact-info">
+        <motion.div className="contact-grid" variants={staggerContainer}>
+          <motion.div className="contact-info" variants={fadeInUp}>
             <span className="section-kicker">Connect</span>
             <h2>Let’s open doors together.</h2>
             <p className="section-lead">
@@ -314,8 +323,8 @@ const Contact = () => {
               <li>Wraparound support &amp; employment pathways</li>
               <li>Community partners that believe in second chances</li>
             </ul>
-          </div>
-          <div className="contact-panel">
+          </motion.div>
+          <motion.div className="contact-panel" variants={fadeInUp}>
             <div className="contact-tabs" role="tablist" aria-label="Contact form options">
               {formKeys.map((key) => (
                 <button
@@ -334,16 +343,26 @@ const Contact = () => {
               ))}
             </div>
             <div className="contact-forms" role="tabpanel">
-              {renderActiveForm()}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeForm}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  {renderActiveForm()}
+                </motion.div>
+              </AnimatePresence>
             </div>
             <p className="form-helper">
               All submissions go directly to room.for.all2025@gmail.com via secure Web3Forms, and we
               typically respond within 48 hours.
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

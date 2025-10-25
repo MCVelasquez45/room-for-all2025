@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { fadeInUp, staggerContainer, viewportOnce } from '../motionPresets';
 
 const Gallery = () => {
   const [selected, setSelected] = useState(null);
@@ -76,32 +78,65 @@ const Gallery = () => {
   };
 
   return (
-    <section id="gallery" className="section gallery">
+    <motion.section
+      id="gallery"
+      className="section gallery"
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewportOnce}
+    >
       <div className="container">
-        <h2>Gallery</h2>
-        <div className="gallery-grid">
+        <motion.h2 variants={fadeInUp}>Gallery</motion.h2>
+        <motion.div className="gallery-grid" variants={staggerContainer}>
           {images.map((img, idx) => (
-            <figure className="gallery-card" key={idx}>
+            <motion.figure
+              className="gallery-card"
+              key={idx}
+              variants={fadeInUp}
+              whileHover={{ y: -6, scale: 1.02 }}
+            >
               <img
                 src={img.src}
                 alt={img.alt}
                 onClick={() => setSelected(img)}
               />
               <figcaption>{img.caption}</figcaption>
-            </figure>
+            </motion.figure>
           ))}
-        </div>
+        </motion.div>
       </div>
-      {selected && (
-        <div className="lightbox" onClick={handleOverlayClick}>
-          <span className="close" onClick={closeLightbox}>&times;</span>
-          <div className="lightbox-content">
-            <img src={selected.src} alt={selected.alt} />
-            <p>{selected.caption}</p>
-          </div>
-        </div>
-      )}
-    </section>
+      <AnimatePresence>
+        {selected && (
+          <motion.div
+            className="lightbox"
+            onClick={handleOverlayClick}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.span
+              className="close"
+              onClick={closeLightbox}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+            >
+              &times;
+            </motion.span>
+            <motion.div
+              className="lightbox-content"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+            >
+              <img src={selected.src} alt={selected.alt} />
+              <p>{selected.caption}</p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.section>
   );
 };
 
